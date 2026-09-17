@@ -1,0 +1,2 @@
+Hello from Solaris!
+Yaroslav Rogov 25940
