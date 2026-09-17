@@ -1,3 +1,4 @@
+#include <complex.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -8,19 +9,26 @@ extern char *tzname[];
 int main()
 {
     time_t now;
-    struct tm *sp;
-
     time(&now);
 
-    printf("%s", ctime(&now));
-
     putenv("TZ=America/Los_Angeles");
+    struct tm *pst = localtime(&now);
 
-    sp = localtime(&now);
-    printf("%d/%d/%02d %d:%02d %s\n",
-            sp->tm_mon + 1, sp->tm_mday,
-            1900 + sp->tm_year, sp->tm_hour,
-            sp->tm_min, tzname[sp->tm_isdst]);
+    printf("CURRENT TIME: %d/%d/%02d %d:%02d %s\n",
+            pst->tm_mday, pst->tm_mon + 1,
+            1900 + pst->tm_year, pst->tm_hour,
+            pst->tm_min, tzname[pst->tm_isdst]);
+
+    if (pst->tm_isdst) {
+        now -= 60 * 60 * 1;
+        pst = localtime(&now);
+        pst->tm_isdst = 0;
+    }
+
+    printf("PST TIME: %d/%d/%02d %d:%02d %s\n",
+            pst->tm_mday, pst->tm_mon + 1,
+            1900 + pst->tm_year, pst->tm_hour,
+            pst->tm_min, tzname[pst->tm_isdst]);
 
     exit(0);
 }
