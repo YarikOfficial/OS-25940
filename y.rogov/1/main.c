@@ -16,13 +16,26 @@
 #define OPT_STRING "ispuU:cC:dvV:"
 #define OPT_LIMIT 255 
 #define OPT_ARG_LIMIT 255 
+#define HELP_MESSAGE "Usage: %s options\n\
+Options:\n\
+    -i: print user and group ids\n\
+    -s: make process group leader\n\
+    -p: print process id, parent process id, and process group id\n\
+    -u: print file size limit\n\
+    -U: set file size limit\n\
+    -c: print core file size limit\n\
+    -C: set core file size limit\n\
+    -d: print working directory\n\
+    -v: print environment variables\n\
+    -V: set environment variable\n\
+    -h: print this help\n"
 
 extern char **environ;
 
 int main(int argc, char *argv[]) 
 {
     if(argc < 2) {
-        fprintf(stderr,"Usage: %s options\n", argv[0]);
+        printf(HELP_MESSAGE, argv[0]);
         exit(0);
     }
 
@@ -89,6 +102,8 @@ int main(int argc, char *argv[])
                 if (putenv(opts_arg[i]) != 0)
                     perror("putenv error");
                 break;
+            case 'h':
+                printf(HELP_MESSAGE, argv[0]);
             default:
                 exit(EXIT_FAILURE);
         }
