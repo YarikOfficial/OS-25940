@@ -5,6 +5,8 @@ all: build/1.out\
 		 build/5.out\
 		 build/6.out\
 		 build/7.out\
+		 build/9.out\
+		 build/10.out\
 
 build/%.out : %/main.c
 	@mkdir -p build
