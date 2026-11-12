@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
   if (argc < 2)
   {
-    printf("Usage: %s [path]", argv[0]);
+    printf("Usage: %s [path]\n", argv[0]);
     exit(EXIT_FAILURE);
   }
 
@@ -33,6 +33,6 @@ int main(int argc, char *argv[])
     waitid(P_PID, pid, &status, WEXITED);
 
     printf("I'm parent. My output:\n");
-    printf("child exit code: %d\n", status.si_status);
+    printf("child exit code: %d\n", status.si_code);
   }
 }
