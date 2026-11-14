@@ -99,10 +99,10 @@ int main()
 
     // recv
     char msg[256];
-    int size;
+    ssize_t size;
     while ((size = recv(client_fd, msg, sizeof(msg), 0)) > 0)
     {
-      for (int i = 0; i < size; ++i) msg[i] = toupper(msg[i]);
+      for (ssize_t i = 0; i < size; ++i) msg[i] = toupper(msg[i]);
 
       // output msg
       write(STDOUT_FILENO, "PARENT: OMG!!! I'VE GOT A MESSAGE:\n", 35);
