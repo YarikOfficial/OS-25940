@@ -8,11 +8,12 @@
 #include <string.h>
 #include <ctype.h>
 
-#define SOCKET_PATH "./25/socket.sock"
+#define SOCKET_PATH "./build/socket.sock"
 
 int main()
 {
   write(STDOUT_FILENO, "PARENT: HELLO FROM PARENT!\n", 27);
+  unlink(SOCKET_PATH);
 
   // socket
   int sock_fd = socket(AF_UNIX, SOCK_STREAM, 0);

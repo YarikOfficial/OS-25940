@@ -7,7 +7,7 @@
 #include <sys/un.h>
 #include <string.h>
 
-#define SOCKET_PATH "./25/socket.sock"
+#define SOCKET_PATH "./build/socket.sock"
 
 int main()
 {
