@@ -6,12 +6,12 @@
 #include <sys/wait.h>
 #include <sys/un.h>
 #include <ctype.h>
+#include <string.h>
 
 #define SOCKET_PATH "./25/socket.sock"
 
 int main()
 {
-
   // fork
   pid_t pid = fork();
   if (pid < 0)
@@ -53,7 +53,7 @@ int main()
     }
 
     write(STDOUT_FILENO, "CHILD: I'VE SENT A MESSAGE:\n", 28);
-    write(STDOUT_FILENO, msg, sizeof(msg));
+    write(STDOUT_FILENO, msg, strlen(msg));
     write(STDOUT_FILENO, "\n", 1);
 
     close(sock_fd);
@@ -99,22 +99,25 @@ int main()
 
     // recv
     char msg[256];
-    int size = recv(client_fd, msg, sizeof(msg), 0);
+    int size;
+    while ((size = recv(client_fd, msg, sizeof(msg), 0)) > 0)
+    {
+      for (int i = 0; i < size; ++i) msg[i] = toupper(msg[i]);
+
+      // output msg
+      write(STDOUT_FILENO, "PARENT: OMG!!! I'VE GOT A MESSAGE:\n", 35);
+      write(STDOUT_FILENO, msg, size);
+      write(STDOUT_FILENO, "\n", 1);
+    }
     if (size < 0)
     {
       perror("recv");
       return EXIT_FAILURE;
     }
 
-    for (int i = 0; i < size; ++i) msg[i] = toupper(msg[i]);
-
-    // output msg
-    write(STDOUT_FILENO, "PARENT: OMG!!! I'VE GOT A MESSAGE:\n", 35);
-    write(STDOUT_FILENO, msg, size);
-    write(STDOUT_FILENO, "\n", 1);
-
     wait(0);
     close(sock_fd);
+    close(client_fd);
 
     unlink(SOCKET_PATH);
   }

@@ -11,6 +11,7 @@ all: build/1.out\
 		 build/18.out\
 		 build/21.out\
 		 build/25.out\
+		 build/30.out\
 
 build/%.out : %/main.c
 	@mkdir -p build
