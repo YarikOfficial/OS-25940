@@ -9,6 +9,7 @@ all: build/1.out\
 		 build/10.out\
 		 build/17.out\
 		 build/18.out\
+		 build/21.out\
 
 build/%.out : %/main.c
 	@mkdir -p build
